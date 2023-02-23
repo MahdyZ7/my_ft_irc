@@ -6,7 +6,7 @@
 /*   By: ayassin <ayassin@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 13:15:09 by ayassin           #+#    #+#             */
-/*   Updated: 2023/02/21 19:05:55 by ayassin          ###   ########.fr       */
+/*   Updated: 2023/02/23 12:52:35 by ayassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@
 #include <unistd.h> // For read
 // https://ncona.com/2019/04/building-a-simple-server-with-cpp/
 // https://www.geeksforgeeks.org/socket-programming-cc/
+// https://medium.com/from-the-scratch/http-server-what-do-you-need-to-know-to-build-a-simple-http-server-from-scratch-d1ef8945e4fa
 int main()
 {
 	int			sockfd;
-	sockaddr_in	sockaddr;
+	struct sockaddr_in	sockaddr;
 	
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
 	if (sockfd == -1)
@@ -30,7 +31,7 @@ int main()
 	
 	sockaddr.sin_family = AF_INET;
 	sockaddr.sin_addr.s_addr = INADDR_ANY;
-	sockaddr.sin_port = (in_port_t) htonl(777);
+	sockaddr.sin_port = htons(777);
 	if (listen(sockfd, 10) < 0)
 	{
 		std::cout << "Failed to listen on socket. errno: " << errno << std::endl;
