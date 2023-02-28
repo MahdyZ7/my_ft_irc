@@ -6,7 +6,7 @@
 /*   By: ayassin <ayassin@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 13:15:09 by ayassin           #+#    #+#             */
-/*   Updated: 2023/02/23 12:52:35 by ayassin          ###   ########.fr       */
+/*   Updated: 2023/02/28 16:30:20 by ayassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,16 @@ int main()
     	exit(EXIT_FAILURE);
 	}
 	
+	memset((char *)&sockaddr, 0, sizeof(sockaddr));
 	sockaddr.sin_family = AF_INET;
-	sockaddr.sin_addr.s_addr = INADDR_ANY;
+	sockaddr.sin_addr.s_addr = htonl(INADDR_ANY);
 	sockaddr.sin_port = htons(777);
+	if (bind(sockfd, (struct sockaddr*)&sockaddr, sizeof(sockaddr)) < 0)
+	{
+		std::cout << "Failed to bind to port 9999. errno: " << errno << std::endl;
+		exit(EXIT_FAILURE);
+	}
+	
 	if (listen(sockfd, 10) < 0)
 	{
 		std::cout << "Failed to listen on socket. errno: " << errno << std::endl;
