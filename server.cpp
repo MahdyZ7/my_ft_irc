@@ -6,7 +6,7 @@
 /*   By: ayassin <ayassin@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 13:15:09 by ayassin           #+#    #+#             */
-/*   Updated: 2023/02/28 16:30:20 by ayassin          ###   ########.fr       */
+/*   Updated: 2023/03/04 09:44:40 by ayassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,18 @@ int main()
 	std::cout << "Success" << errno << std::endl;
 
 	char buff[100];
-	int bytesRead = read(connection, buff, 100);
-	if (bytesRead < 0)
+	int bytesRead = 100;
+	while (bytesRead > 0)
 	{
-		std::cout << "Failed to read connection. errno: " << errno << std::endl;
-    	exit(EXIT_FAILURE);
+		bytesRead = read(connection, buff, 100);
+		
+		if (bytesRead < 0)
+		{
+			std::cout << "Failed to read connection. errno: " << errno << std::endl;
+			exit(EXIT_FAILURE);
+		}
+		std::cout << "The message is: " << buff << " with " << bytesRead << " Bytes";
 	}
-	std::cout << "The message is: " << buff;
 	
 	std::string response = "Good talking to you\n";
 	send(connection, response.c_str(), response.size(), 0);
